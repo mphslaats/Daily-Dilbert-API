@@ -5,12 +5,13 @@ const cheerio = require('cheerio');
 const nunjucks = require('nunjucks');
 
 const today = new Date();
-let year = today.getFullYear();
+const year = today.getFullYear();
 let month = today.getMonth() + 1
 month = month < 10 ? `0${month}`: month;
 let day = today.getDate();
 day = day < 10 ? `0${day}`: day;
 const date = `${year}-${month}-${day}`;
+const url = `http://dilbert.com/strip/${date}`
 
 
 nunjucks.configure('views', {
@@ -20,21 +21,20 @@ nunjucks.configure('views', {
 
 
 app.get('/', (req, res) => {
-  res.render('index.html', { today: 'bar' });
-});
-
-app.get('/', (request, response) => {
-  response.sendFile(`${__dirname}/views/index.html`);
+  axios.get(url).then(response => {
+    const $ = cheerio.load(response.data);
+    const comicUrl = $('.img-comic').attr('src');
+    res.render('index.html', {"today": `${comicUrl}.png`});
+  }).catch(error => res.json(error));
 });
 
 
 app.get('/json', (req, res) => {
-  var url = `http://dilbert.com/strip/${date}`
   axios.get(url).then(response => {
     const $ = cheerio.load(response.data);
     const comicUrl = $('.img-comic').attr('src');
     res.json({"today": `${comicUrl}.png`});
-  });
+  }).catch(error => res.json(error));
 });
 
 
