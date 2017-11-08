@@ -2,10 +2,11 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 const cheerio = require('cheerio');
+let today_response = {};
 
 
 app.get('/', (request, response) => {
-  response.sendFile(__dirname + '/views/index.html');
+  response.sendFile(`${__dirname}/views/index.html`);
 });
 
 
@@ -21,7 +22,8 @@ app.get('/today', (req, res) => {
   axios.get(url).then(response => {
     const $ = cheerio.load(response.data);
     const comicUrl = $('.img-comic').attr('src');
-    res.json({"today": `${comicUrl}.png`});
+    today_response = {"today": `${comicUrl}.png`};
+    res.json(today_response);
   });
 });
 
