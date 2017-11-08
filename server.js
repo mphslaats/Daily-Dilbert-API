@@ -23,8 +23,12 @@ nunjucks.configure('views', {
 app.get('/', (req, res) => {
   axios.get(url).then(response => {
     const $ = cheerio.load(response.data);
+    const comicTitle = $('.comic-title-name').text();
     const comicUrl = $('.img-comic').attr('src');
-    res.render('index.html', {"today": `${comicUrl}.png`});
+    res.render('index.html', {
+      "title": comicTitle,
+      "image": `${comicUrl}.png`
+    });
   }).catch(error => res.json(error));
 });
 
@@ -32,8 +36,13 @@ app.get('/', (req, res) => {
 app.get('/json', (req, res) => {
   axios.get(url).then(response => {
     const $ = cheerio.load(response.data);
+    const comicTitle = $('.comic-title-name').text();
     const comicUrl = $('.img-comic').attr('src');
-    res.json({"today": `${comicUrl}.png`});
+    const jsonResponse = {
+      "title": comicTitle,
+      "image": `${comicUrl}.png`
+    };
+    res.json(jsonResponse);
   }).catch(error => res.json(error));
 });
 
