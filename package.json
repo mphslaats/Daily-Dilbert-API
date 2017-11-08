@@ -1,0 +1,26 @@
+{
+  "name": "dilbert-api",
+  "version": "0.0.1",
+  "description": "I scrape Dilbert comics",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "axios": "^0.17.0",
+    "cheerio": "^0.22.0"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "repository": {
+    "url": "https://glitch.com/edit/#!/dilbert-api"
+  },
+  "license": "MIT",
+  "keywords": [
+    "node",
+    "glitch",
+    "express"
+  ]
+}
