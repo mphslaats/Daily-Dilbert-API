@@ -49,7 +49,7 @@ app.get('/json', (req, res) => {
     const comicUrl = $('.img-comic').attr('src');
     const jsonResponse = {
       "title": comicTitle,
-      "image": `${comicUrl}.png`
+      "image": `${comicUrl}.png`,
     };
     res.json(jsonResponse);
   }).catch(error => res.json(error));
