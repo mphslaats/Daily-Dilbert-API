@@ -11,7 +11,9 @@ month = month < 10 ? `0${month}` : month;
 let day = today.getDate();
 day = day < 10 ? `0${day}` : day;
 const date = `${year}-${month}-${day}`;
-const url = `http://dilbert.com/strip/${date}`;
+
+const base = `http://dilbert.com/strip`;
+const url = `${base}/${date}`;
 
 nunjucks.configure("views", {
   autoescape: true,
@@ -62,7 +64,7 @@ app.get("/json", (req, res) => {
 
 app.get("/search", (req, res) => {
   axios
-    .get(url + "strip/" + req.query.q)
+    .get(`${base}/${req.query.q}`)
     .then((response) => {
       const $ = cheerio.load(response.data);
       const comicTitle = $(".comic-title-name").text();
