@@ -4,6 +4,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const nunjucks = require("nunjucks");
 
+// Get today's date
 const today = new Date();
 const year = today.getFullYear();
 let month = today.getMonth() + 1;
@@ -12,8 +13,8 @@ let day = today.getDate();
 day = day < 10 ? `0${day}` : day;
 const date = `${year}-${month}-${day}`;
 
-const base = `http://dilbert.com/strip`;
-const url = `${base}/${date}`;
+const url = `http://dilbert.com/strip`;
+const todayUrl = `${url}/${date}`;
 
 nunjucks.configure("views", {
   autoescape: true,
@@ -33,11 +34,13 @@ app.use((req, res, next) => {
 
 app.get("/", (req, res) => {
   axios
-    .get(url)
+    .get(todayUrl)
     .then((response) => {
       const $ = cheerio.load(response.data);
+    
       const comicTitle = $(".comic-title-name").text();
       const comicUrl = $(".img-comic").attr("src");
+    
       res.render("index.html", {
         title: comicTitle,
         image: `${comicUrl}.png`,
@@ -48,11 +51,13 @@ app.get("/", (req, res) => {
 
 app.get("/json", (req, res) => {
   axios
-    .get(url)
+    .get(todayUrl)
     .then((response) => {
       const $ = cheerio.load(response.data);
+    
       const comicTitle = $(".comic-title-name").text();
       const comicUrl = $(".img-comic").attr("src");
+    
       const jsonResponse = {
         title: comicTitle,
         image: `${comicUrl}.png`,
@@ -64,11 +69,13 @@ app.get("/json", (req, res) => {
 
 app.get("/search", (req, res) => {
   axios
-    .get(`${base}/${req.query.q}`)
+    .get(`${url}/${req.query.q}`)
     .then((response) => {
       const $ = cheerio.load(response.data);
+    
       const comicTitle = $(".comic-title-name").text();
       const comicUrl = $(".img-comic").attr("src");
+    
       const jsonResponse = {
         title: comicTitle,
         image: `${comicUrl}.png`,
