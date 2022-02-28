@@ -1,7 +1,7 @@
 {
   "name": "daily-dilbert-api",
   "version": "1.0.0",
-  "description": "I scrape Dilbert comics",
+  "description": "Dilbert API, delivering today's Dilbert",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
@@ -13,10 +13,10 @@
     "nunjucks": "^3.2.3"
   },
   "engines": {
-    "node": "8.x"
+    "node": "12.x"
   },
   "repository": {
-    "url": "https://glitch.com/edit/#!/dilbert-api"
+    "url": "https://glitch.com/edit/#!/daily-dilbert-api"
   },
   "license": "MIT",
   "keywords": [

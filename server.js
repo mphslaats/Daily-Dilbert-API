@@ -60,6 +60,22 @@ app.get("/json", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+app.get("/search", (req, res) => {
+  axios
+    .get(url + "strip/" + req.query.q)
+    .then((response) => {
+      const $ = cheerio.load(response.data);
+      const comicTitle = $(".comic-title-name").text();
+      const comicUrl = $(".img-comic").attr("src");
+      const jsonResponse = {
+        title: comicTitle,
+        image: `${comicUrl}.png`,
+      };
+      res.json(jsonResponse);
+    })
+    .catch((error) => res.json(error));
+});
+
 const listener = app.listen(process.env.PORT, () => {
   console.log(`Your app is listening on port ${listener.address().port}`);
 });
